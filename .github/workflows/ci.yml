@@ -25,7 +25,7 @@ jobs:
     - name: Push image
       run: docker push ${{secrets.REGISTRY_USERNAME}}/my-image-name:${{github.run_number}}
 
-# new line
+# new line here
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -39,4 +39,4 @@ jobs:
           script:
             docker stop resume || echo ""
             docker rm resume || echo ""
-            docker run -d --name resume -p 8080:5001 ${{secrets.REGISTRY_USERNAME}}/my-image-name:${{github.run_number}}
+            docker run -d --name resume -p 8080:5001 lepc84/my-image-name:9

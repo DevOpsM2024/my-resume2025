@@ -12,7 +12,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  AWS_ROLE: ${{ secrets.AWS_ACTION_ROLE1}}
+  AWS_ROLE: ${{secrets.AWS_ACTION_ROLE2}}
 
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: AWS creds config
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{env.AWS_ACTION_ROLE1}} # OIDC connect
+          role-to-assume: ${{env.AWS_ACTION_ROLE2}} # OIDC connect
           aws-region: ${{env.AWS_REGION}}
       - name: login to ecr
         uses: aws-actions/amazon-ecr-login@v1

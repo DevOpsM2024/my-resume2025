@@ -12,7 +12,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  AWS_ROLE: ${{secrets.AWS_ACTION_ROLE2}}
+  AWS_ACTION_ROLE2: ${{ secrets.AWS_ACTION_ROLE2 }}
 
 
 jobs:

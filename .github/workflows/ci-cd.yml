@@ -19,7 +19,7 @@ jobs:
       - name: clone repo
         uses: actions/checkout@v3
       - name: AWS creds config
-        uses: actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{env.AWS_ACTION_ROLE1}} # OIDC connect
           aws-region: ${{env.AWS_REGION}}

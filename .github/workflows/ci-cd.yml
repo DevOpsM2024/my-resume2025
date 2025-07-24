@@ -95,17 +95,9 @@ jobs:
 
       - name: Update task definition with new ECR image
         run: |
-            # Construct the correct ECR image URI
-            ECR_IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPO_NAME }}:${{ env.IMAGE_TAG }}"
-           # Update the JSON file
-            jq --arg IMG "$ECR_IMAGE" '.containerDefinitions[0].image = $IMG' register-task-definition.json > temp.json
-          v temp.json register-task-definition.json
-          # Register the task definition
-            aws ecs register-task-definition --cli-input-json file://register-task-definition.json
-    # Save the ARN
-          echo "NEW_TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION }} --query 'taskDefinition.taskDefinitionArn' --output text)" >> $GITHUB_ENV
-          #jq --arg IMAGE_URI "Image=${{ steps.ecr-login.outputs.registry }}/${{env.ECR_REPO_NAME}}:${{env.IMAGE_TAG}}" '.containerDefinitions[0].image = $IMAGE_URI | #del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .deregisteredAt)' task-definition.json > register-task-definition.json
-      
+          jq --arg ${{steps.ecr-login.outputs.registry}}/${{env.ECR_REPO_NAME}}:${{env.IMAGE_TAG}} "${{ needs.Build.outputs.image-uri }}" '.containerDefinitions[0].image = $IMAGE_URI | 
+          del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .deregisteredAt)' task-definition.json > register-task-definition.json
+   
       - name: Register new task definition
         run: |
           aws ecs register-task-definition --cli-input-json file://register-task-definition.json
